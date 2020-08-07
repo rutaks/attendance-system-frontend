@@ -2,10 +2,22 @@ import React from "react";
 import { Grid, Button, TextField, Typography } from "@material-ui/core";
 import { useStyles } from "./style";
 
-function SignInForm() {
+function SignInForm({
+  errors,
+  touched,
+  handleSubmit,
+  setFieldTouched,
+  handleChange,
+  isDisabled,
+}) {
   const classes = useStyles();
+  const onChange = (name, e) => {
+    e.persist();
+    handleChange(e);
+    setFieldTouched(name, true, false);
+  };
   return (
-    <form className={classes.form}>
+    <form onSubmit={handleSubmit} className={classes.form}>
       <Typography variant="h1">Attendance System</Typography>
       <Typography className={classes.title} variant="h2">
         Sign in
@@ -21,6 +33,9 @@ function SignInForm() {
         name="username"
         type="text"
         variant="outlined"
+        onChange={onChange.bind(null, "username")}
+        error={errors.username && touched.username}
+        helperText={errors.username && errors.username}
       />
       <TextField
         className={classes.textField}
@@ -29,8 +44,12 @@ function SignInForm() {
         name="password"
         type="password"
         variant="outlined"
+        onChange={onChange.bind(null, "password")}
+        error={errors.password && touched.password}
+        helperText={errors.password && errors.password}
       />
       <Button
+        disabled={isDisabled}
         className={classes.signInButton}
         color="primary"
         fullWidth
