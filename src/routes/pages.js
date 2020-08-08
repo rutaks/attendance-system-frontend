@@ -12,6 +12,11 @@ export default {
     url: "/members",
     roles: [ROLES.ADMIN, ROLES.CONSUMER],
   },
+  addMember: {
+    name: "Add Members",
+    url: "/members-add",
+    roles: [ROLES.ADMIN, ROLES.CONSUMER],
+  },
   notFound: { name: "404", url: "/not-found" },
   logout: { name: "Logout", url: "/logout" },
 };

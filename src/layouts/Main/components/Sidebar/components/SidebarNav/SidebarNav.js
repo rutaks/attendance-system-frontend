@@ -50,9 +50,7 @@ const CustomRouterLink = forwardRef((props, ref) => (
 const SidebarNav = (props) => {
   const { pages, className, ...rest } = props;
   const classes = useStyles();
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem(LOGGED_USER))
-  );
+  const [user] = useState(JSON.parse(localStorage.getItem(LOGGED_USER)));
 
   return (
     <List {...rest} className={clsx(classes.root, className)}>

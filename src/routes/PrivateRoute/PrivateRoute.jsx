@@ -6,6 +6,8 @@ import pages from "../pages";
 import RoleBasedRoute from "../RoleBasedRoute/RoleBasedRoute";
 
 const Dashboard = React.lazy(() => import("../../views/Dashboard"));
+const MemberList = React.lazy(() => import("../../views/MemberList"));
+const MemberAdd = React.lazy(() => import("../../views/MemberAdd"));
 const NotFound = React.lazy(() => import("../../layouts/NotFound"));
 
 function PrivateRoute(props) {
@@ -19,7 +21,21 @@ function PrivateRoute(props) {
             path={pages.dashboard.url}
             name={pages.dashboard.name}
             component={Dashboard}
-            roles={["ADMIN"]}
+            roles={pages.dashboard.roles}
+          />
+          <RoleBasedRoute
+            exact
+            path={pages.members.url}
+            name={pages.members.name}
+            component={MemberList}
+            roles={pages.members.roles}
+          />
+          <RoleBasedRoute
+            exact
+            path={pages.addMember.url}
+            name={pages.addMember.name}
+            component={MemberAdd}
+            roles={pages.addMember.roles}
           />
           <Route component={NotFound} />
         </Switch>

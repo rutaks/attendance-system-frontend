@@ -25,9 +25,7 @@ const useStyles = makeStyles((theme) => ({
 const Profile = (props) => {
   const { className, ...rest } = props;
   const classes = useStyles();
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem(LOGGED_USER))
-  );
+  const [user] = useState(JSON.parse(localStorage.getItem(LOGGED_USER)));
 
   return (
     <div {...rest} className={clsx(classes.root, className)}>
