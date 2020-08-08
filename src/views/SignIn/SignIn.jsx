@@ -9,6 +9,7 @@ import { validationSchema, initialValues } from "./validation";
 import AuthService from "../../services/AuthService";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useHistory } from "react-router-dom";
+import pages from "../../routes/pages";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -19,6 +20,15 @@ function SignIn() {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  async function handleSubmit(values) {
+    setError(null);
+    setLoading(true);
+    const { status, error } = await AuthService.login(values);
+    if (!status) setError(error);
+    else history.push(pages.dashboard.url);
+    setLoading(false);
+  }
 
   return (
     <Minimal>
@@ -40,12 +50,7 @@ function SignIn() {
                   initialValues={initialValues}
                   validationSchema={validationSchema}
                   onSubmit={async (values) => {
-                    setError(null);
-                    setLoading(true);
-                    const { status, error } = await AuthService.login(values);
-                    if (!status) setError(error);
-                    else history.push("/");
-                    setLoading(false);
+                    await handleSubmit(values);
                   }}
                 >
                   {(props) => <SignInForm isDisabled={loading} {...props} />}

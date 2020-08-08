@@ -6,6 +6,7 @@ import pages from "./pages";
 const SignIn = React.lazy(() => import("../views/SignIn"));
 const PrivateRoute = React.lazy(() => import("./PrivateRoute"));
 const NotFound = React.lazy(() => import("../layouts/NotFound"));
+const Logout = React.lazy(() => import("../views/Logout"));
 
 export default function Routes() {
   return (
@@ -16,6 +17,7 @@ export default function Routes() {
           name={pages.login.name}
           component={SignIn}
         />
+        <Route exact path="/logout" component={Logout} />
         <Route path="/" name="PrivateRoute" component={PrivateRoute} />
         <Route component={NotFound} />
       </Switch>

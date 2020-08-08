@@ -6,11 +6,15 @@ import "dotenv/config";
 
 // eslint-disable-next-line no-undef
 const { REACT_APP_BASE_URL_BACKEND } = process.env;
-
-const JWTToken = "ASF";
+const JWT_TOKEN = "ASF";
+const LOGGED_USER = "ASF_USER";
+const ROLES = {
+  ADMIN: "ADMIN",
+  CONSUMER: "CONSUMER",
+};
 
 const backend = {
   baseUrl: REACT_APP_BASE_URL_BACKEND || "http://localhost:4000",
 };
 
-export { backend, JWTToken };
+export { backend, JWT_TOKEN, LOGGED_USER, ROLES };

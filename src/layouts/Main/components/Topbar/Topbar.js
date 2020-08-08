@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link, Link as RouterLink } from "react-router-dom";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
@@ -8,6 +8,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import NotificationsIcon from "@material-ui/icons/NotificationsOutlined";
 import AccountBalanceOutlinedIcon from "@material-ui/icons/AccountBalanceOutlined";
 import InputIcon from "@material-ui/icons/Input";
+import pages from "../../../../routes/pages";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   signOutButton: {
     marginLeft: theme.spacing(1),
+    color: "#fff",
   },
   logo: {
     color: "#fff",
@@ -48,9 +50,11 @@ const Topbar = (props) => {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton className={classes.signOutButton} color="inherit">
-            <InputIcon />
-          </IconButton>
+          <Link to={pages.logout.url}>
+            <IconButton className={classes.signOutButton} color="inherit">
+              <InputIcon />
+            </IconButton>
+          </Link>
         </Hidden>
         <Hidden lgUp>
           <IconButton color="inherit" onClick={onSidebarOpen}>
