@@ -19,7 +19,7 @@ export const axiosImpl = (data = {}) => {
   const baseURL = baseUrl;
   const jwt =
     token || localStorage.getItem(constantHelper.JWT_TOKEN) || undefined;
-  let headers = jwt && jwt !== "" ? { Authorization: `Bearer ${jwt}` } : "";
+  let headers = jwt && jwt !== "" ? { Authorization: `${jwt}` } : "";
   if (data.headers) {
     headers = { ...headers, "content-type": data.headers["Content-Type"] };
   }

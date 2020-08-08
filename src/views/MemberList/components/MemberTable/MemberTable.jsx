@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
-import moment from "moment";
 import { makeStyles } from "@material-ui/styles";
 import {
   Card,
@@ -15,6 +14,7 @@ import {
   TableRow,
   Typography,
   TablePagination,
+  LinearProgress,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,10 +35,13 @@ const useStyles = makeStyles((theme) => ({
   actions: {
     justifyContent: "flex-end",
   },
+  loader: {
+    alignSelf: "center",
+  },
 }));
 
 const MemberTable = (props) => {
-  const { className, users, ...rest } = props;
+  const { className, users, loading, ...rest } = props;
 
   const classes = useStyles();
 
@@ -92,61 +95,65 @@ const MemberTable = (props) => {
     <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent className={classes.content}>
         <div className={classes.inner}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedUsers.length === users.length}
-                    color="primary"
-                    indeterminate={
-                      selectedUsers.length > 0 &&
-                      selectedUsers.length < users.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Fellowship</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Registration date</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.slice(0, rowsPerPage).map((user) => (
-                <TableRow
-                  className={classes.tableRow}
-                  hover
-                  key={user.id}
-                  selected={selectedUsers.indexOf(user.id) !== -1}
-                >
+          {loading ? (
+            <LinearProgress color="secondary" />
+          ) : (
+            <Table>
+              <TableHead>
+                <TableRow>
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedUsers.indexOf(user.id) !== -1}
+                      checked={selectedUsers.length === users.length}
                       color="primary"
-                      onChange={(event) => handleSelectOne(event, user.id)}
-                      value="true"
+                      indeterminate={
+                        selectedUsers.length > 0 &&
+                        selectedUsers.length < users.length
+                      }
+                      onChange={handleSelectAll}
                     />
                   </TableCell>
-                  <TableCell>
-                    <div className={classes.nameContainer}>
-                      <Typography variant="body1">{user.name}</Typography>
-                    </div>
-                  </TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>
-                    {user.address.city}, {user.address.state},{" "}
-                    {user.address.country}
-                  </TableCell>
-                  <TableCell>{user.phone}</TableCell>
-                  <TableCell>
-                    {moment(user.createdAt).format("DD/MM/YYYY")}
-                  </TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Fellowship</TableCell>
+                  <TableCell>Phone</TableCell>
+                  <TableCell>Branch</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHead>
+
+              <TableBody>
+                {users.slice(0, rowsPerPage).map((user) => (
+                  <TableRow
+                    className={classes.tableRow}
+                    hover
+                    key={user.id}
+                    selected={selectedUsers.indexOf(user.id) !== -1}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={selectedUsers.indexOf(user.id) !== -1}
+                        color="primary"
+                        onChange={(event) => handleSelectOne(event, user.id)}
+                        value="true"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <div className={classes.nameContainer}>
+                        <Typography variant="body1">{`${user.firstName} ${user.lastName}`}</Typography>
+                      </div>
+                    </TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>
+                      {user.fellowship ? user.fellowship.fellowshipName : "N/A"}
+                    </TableCell>
+                    <TableCell>{user.phoneNumber}</TableCell>
+                    <TableCell>
+                      {user.branch ? user.branch.name : "N/A"}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </div>
       </CardContent>
       <CardActions className={classes.actions}>
