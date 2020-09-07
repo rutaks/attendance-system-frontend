@@ -1,9 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Grid } from "@material-ui/core";
-import { MemberForm } from "./components";
 import { Formik } from "formik";
-import { initialValues, validationSchema } from "./validation";
+import { initialValues, validationSchema } from "./formik";
+import MemberFormContainer from "../../components/MemberForm";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,8 +11,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MemberAdd() {
+function MemberAdd({ submit = () => {}, submitError, isSubmitting }) {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <Grid container spacing={10}>
@@ -21,10 +22,16 @@ function MemberAdd() {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(values) => {
-              console.log(values);
+              submit(values);
             }}
           >
-            {(props) => <MemberForm {...props} />}
+            {(props) => (
+              <MemberFormContainer
+                {...props}
+                isSubmitting={isSubmitting}
+                submitError={submitError}
+              />
+            )}
           </Formik>
         </Grid>
       </Grid>
