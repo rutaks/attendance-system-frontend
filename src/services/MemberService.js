@@ -1,11 +1,11 @@
 import { axiosImpl, getAxiosError } from "../helpers/axiosHelper";
 
 class MemberService {
-  static async getMembers({ page = 0, size = 0 }) {
+  static async getMembers({ page = 0, size = 10 }) {
     try {
       const {
         data: { body },
-      } = await axiosImpl({}).get(`/members`);
+      } = await axiosImpl({}).get(`/members?page=${page}&size=${size}`);
       return { status: true, response: body };
     } catch (error) {
       throw getAxiosError(error);
