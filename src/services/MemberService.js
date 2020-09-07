@@ -1,12 +1,14 @@
 import { axiosImpl, getAxiosError } from "../helpers/axiosHelper";
 
 class MemberService {
-  static async getMembers() {
+  static async getMembers({ page = 0, size = 0 }) {
     try {
-      const { data } = await axiosImpl({}).get(`/members`);
-      return { status: true, response: data };
+      const {
+        data: { body },
+      } = await axiosImpl({}).get(`/members`);
+      return { status: true, response: body };
     } catch (error) {
-      return { status: false, error: getAxiosError(error) };
+      throw getAxiosError(error);
     }
   }
 

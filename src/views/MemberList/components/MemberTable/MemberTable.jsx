@@ -6,16 +6,13 @@ import {
   Card,
   CardActions,
   CardContent,
-  Checkbox,
   Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
   TablePagination,
   LinearProgress,
 } from "@material-ui/core";
+import MemberTableHead from "./components/MemberTableHead";
+import MemberTableBody from "./components/MemberTableBody";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -40,18 +37,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MemberTable = (props) => {
-  const { className, users, loading, ...rest } = props;
-
+const MemberTable = ({
+  className,
+  users,
+  loading,
+  error,
+  totalCount,
+  size,
+  setSize,
+  page,
+  setPage,
+}) => {
   const classes = useStyles();
 
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(0);
 
   const handleSelectAll = (event) => {
-    const { users } = props;
-
     let selectedUsers;
 
     if (event.target.checked) {
@@ -88,70 +89,32 @@ const MemberTable = (props) => {
   };
 
   const handleRowsPerPageChange = (event) => {
-    setRowsPerPage(event.target.value);
+    setSize(event.target.value);
   };
-
   return (
-    <Card {...rest} className={clsx(classes.root, className)}>
+    <Card className={clsx(classes.root, className)}>
       <CardContent className={classes.content}>
+        {error !== null && (
+          <div className={classes.error}>
+            <Alert severity="error">{error}</Alert>
+          </div>
+        )}
         <div className={classes.inner}>
           {loading ? (
             <LinearProgress color="secondary" />
           ) : (
             <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedUsers.length === users.length}
-                      color="primary"
-                      indeterminate={
-                        selectedUsers.length > 0 &&
-                        selectedUsers.length < users.length
-                      }
-                      onChange={handleSelectAll}
-                    />
-                  </TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Fellowship</TableCell>
-                  <TableCell>Phone</TableCell>
-                  <TableCell>Branch</TableCell>
-                </TableRow>
-              </TableHead>
+              <MemberTableHead
+                items={users}
+                selectedItems={selectedUsers}
+                handleSelectAll={handleSelectAll}
+              />
 
-              <TableBody>
-                {users.slice(0, rowsPerPage).map((user) => (
-                  <TableRow
-                    className={classes.tableRow}
-                    hover
-                    key={user.id}
-                    selected={selectedUsers.indexOf(user.id) !== -1}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={selectedUsers.indexOf(user.id) !== -1}
-                        color="primary"
-                        onChange={(event) => handleSelectOne(event, user.id)}
-                        value="true"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <div className={classes.nameContainer}>
-                        <Typography variant="body1">{`${user.firstName} ${user.lastName}`}</Typography>
-                      </div>
-                    </TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      {user.fellowship ? user.fellowship.fellowshipName : "N/A"}
-                    </TableCell>
-                    <TableCell>{user.phoneNumber}</TableCell>
-                    <TableCell>
-                      {user.branch ? user.branch.name : "N/A"}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
+              <MemberTableBody
+                items={users}
+                selectedItems={selectedUsers}
+                handleSelectOne={handleSelectOne}
+              />
             </Table>
           )}
         </div>
@@ -159,11 +122,11 @@ const MemberTable = (props) => {
       <CardActions className={classes.actions}>
         <TablePagination
           component="div"
-          count={users.length}
+          count={totalCount}
           onChangePage={handlePageChange}
           onChangeRowsPerPage={handleRowsPerPageChange}
           page={page}
-          rowsPerPage={rowsPerPage}
+          rowsPerPage={size}
           rowsPerPageOptions={[5, 10, 25]}
         />
       </CardActions>

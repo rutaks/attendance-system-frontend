@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
 import { MemberTooltip, MemberTable } from "./components";
-import mockData from "./data";
-import MemberService from "../../services/MemberService";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,40 +12,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MemberList = () => {
+const MemberList = ({
+  error,
+  loading = true,
+  members = [],
+  totalCount,
+  size,
+  setSize,
+  page,
+  setPage,
+}) => {
   const classes = useStyles();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [members, setMembers] = useState([
-    {
-      id: null,
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      email: "",
-      fellowship: { fellowshipName: "" },
-      branch: { name: "" },
-    },
-  ]);
-
-  useEffect(() => {
-    getMembers();
-  }, []);
-
-  async function getMembers() {
-    setError(null);
-    setLoading(true);
-    const { status, error, response } = await MemberService.getMembers();
-    if (!status) setError(error);
-    else setMembers(response.body.members);
-    setLoading(false);
-  }
-
   return (
     <div className={classes.root}>
       <MemberTooltip />
       <div className={classes.content}>
-        <MemberTable loading={loading} users={members} />
+        <MemberTable
+          error={error}
+          loading={loading}
+          users={members}
+          totalCount={totalCount}
+          size={size}
+          setSize={setSize}
+          page={page}
+          setPage={setPage}
+        />
       </div>
     </div>
   );

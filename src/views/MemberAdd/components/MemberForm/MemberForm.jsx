@@ -19,16 +19,14 @@ const useStyles = makeStyles(() => ({
   root: {},
 }));
 
-const MemberForm = (props) => {
-  const {
-    className,
-    errors,
-    touched,
-    handleSubmit,
-    setFieldTouched,
-    handleChange,
-    ...rest
-  } = props;
+const MemberForm = ({
+  className,
+  errors,
+  touched,
+  handleSubmit,
+  setFieldTouched,
+  handleChange,
+}) => {
   const classes = useStyles();
   const [isGettingBranches, setIsGettingBranches] = useState(true);
   const [branches, setBranches] = useState([]);
