@@ -10,9 +10,9 @@ import {
   TablePagination,
   LinearProgress,
 } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
 import MemberTableHead from "./components/MemberTableHead";
 import MemberTableBody from "./components/MemberTableBody";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -37,28 +37,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MemberTable = (props) => {
-  const {
-    className,
-    users,
-    loading,
-    error,
-    totalCount,
-    size,
-    setSize,
-    page,
-    setPage,
-    ...rest
-  } = props;
-
+const MemberTable = ({
+  className,
+  users,
+  loading,
+  error,
+  totalCount,
+  size,
+  setSize,
+  page,
+  setPage,
+}) => {
   const classes = useStyles();
 
   const [selectedUsers, setSelectedUsers] = useState([]);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleSelectAll = (event) => {
-    const { users } = props;
-
     let selectedUsers;
 
     if (event.target.checked) {
@@ -98,8 +92,13 @@ const MemberTable = (props) => {
     setSize(event.target.value);
   };
   return (
-    <Card {...rest} className={clsx(classes.root, className)}>
+    <Card className={clsx(classes.root, className)}>
       <CardContent className={classes.content}>
+        {error !== null && (
+          <div className={classes.error}>
+            <Alert severity="error">{error}</Alert>
+          </div>
+        )}
         <div className={classes.inner}>
           {loading ? (
             <LinearProgress color="secondary" />
