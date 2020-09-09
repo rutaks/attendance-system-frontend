@@ -26,6 +26,7 @@ const MemberForm = ({
   className,
   errors,
   touched,
+  initialValues = {},
   handleSubmit,
   setFieldTouched,
   handleChange,
@@ -39,6 +40,7 @@ const MemberForm = ({
 }) => {
   const classes = useStyles();
   const history = useHistory();
+
   const onChange = (name, e) => {
     e.persist();
     handleChange(e);
@@ -78,6 +80,7 @@ const MemberForm = ({
                   label="First name"
                   margin="dense"
                   name="firstName"
+                  defaultValue={initialValues.firstName}
                   onChange={onChange.bind(null, "firstName")}
                   required
                   variant="outlined"
@@ -91,6 +94,7 @@ const MemberForm = ({
                   label="Last name"
                   margin="dense"
                   name="lastName"
+                  defaultValue={initialValues.lastName}
                   onChange={onChange.bind(null, "lastName")}
                   required
                   variant="outlined"
@@ -104,6 +108,7 @@ const MemberForm = ({
                   label="Email Address"
                   margin="dense"
                   name="email"
+                  defaultValue={initialValues.email}
                   onChange={onChange.bind(null, "email")}
                   required
                   variant="outlined"
@@ -117,6 +122,7 @@ const MemberForm = ({
                   label="Phone Number"
                   margin="dense"
                   name="phoneNumber"
+                  defaultValue={initialValues.phoneNumber}
                   onChange={onChange.bind(null, "phoneNumber")}
                   type="number"
                   variant="outlined"
@@ -131,6 +137,7 @@ const MemberForm = ({
                   label="Select Fellowship"
                   margin="dense"
                   name="fellowshipId"
+                  defaultValue={initialValues.fellowshipId}
                   onChange={onChange.bind(null, "fellowshipId")}
                   required
                   select
@@ -154,6 +161,7 @@ const MemberForm = ({
                   label="Select Branch"
                   margin="dense"
                   name="branchId"
+                  defaultValue={initialValues.branchId}
                   onChange={() => onChange.bind(null, "branchId")}
                   required
                   select
@@ -175,6 +183,7 @@ const MemberForm = ({
                   label="Location"
                   margin="dense"
                   name="location"
+                  defaultValue={initialValues.location}
                   onChange={onChange.bind(null, "location")}
                   required
                   variant="outlined"
@@ -188,6 +197,7 @@ const MemberForm = ({
                   label="National Id"
                   margin="dense"
                   name="nationalId"
+                  defaultValue={initialValues.nationalId}
                   onChange={onChange.bind(null, "nationalId")}
                   required
                   variant="outlined"
@@ -201,6 +211,7 @@ const MemberForm = ({
                   label="Passport Id"
                   margin="dense"
                   name="passportId"
+                  defaultValue={initialValues.passportId}
                   onChange={onChange.bind(null, "passportId")}
                   required
                   variant="outlined"
