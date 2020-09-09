@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { JWT_TOKEN } from "../../helpers/constantHelper";
 import { LoadingPage, Main } from "../../layouts";
+import MemberEdit from "../../views/MemberEdit";
 import pages from "../pages";
 import RoleBasedRoute from "../RoleBasedRoute/RoleBasedRoute";
 
@@ -20,23 +21,38 @@ function PrivateRoute(props) {
             exact
             path={pages.dashboard.url}
             name={pages.dashboard.name}
-            component={Dashboard}
             roles={pages.dashboard.roles}
-          />
+          >
+            <Dashboard />
+          </RoleBasedRoute>
           <RoleBasedRoute
             exact
             path={pages.members.url}
             name={pages.members.name}
-            component={MemberList}
             roles={pages.members.roles}
-          />
+          >
+            <MemberList />
+          </RoleBasedRoute>
           <RoleBasedRoute
             exact
             path={pages.addMember.url}
             name={pages.addMember.name}
-            component={MemberAdd}
             roles={pages.addMember.roles}
-          />
+          >
+            <MemberAdd />
+          </RoleBasedRoute>
+          <RoleBasedRoute
+            exact
+            path={pages.editMember.url}
+            name={pages.editMember.name}
+            roles={pages.editMember.roles}
+          >
+            {({
+              match: {
+                params: { memberId },
+              },
+            }) => <MemberEdit memberId={memberId} />}
+          </RoleBasedRoute>
           <Route component={NotFound} />
         </Switch>
       </Suspense>

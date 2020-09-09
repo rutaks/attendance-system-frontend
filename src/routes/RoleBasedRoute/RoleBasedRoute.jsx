@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const staticLoggedInUserRoles = "ADMIN";
@@ -10,24 +10,16 @@ const isUserAllowed = (roles = []) => {
   } else return false;
 };
 
-const RoleBasedRoute = ({ component: Component, roles = [], ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) => {
-      if (!isUserAllowed(roles)) {
-        return (
-          <Redirect
-            to={{
-              pathname: "/dashboard",
-              state: { from: props.location },
-            }}
-          />
-        );
-      }
-      return <Component {...props} />;
-    }}
-  />
-);
+const RoleBasedRoute = ({ children, roles = [], ...rest }) => {
+  const history = useHistory();
+  if (!isUserAllowed(roles)) {
+    return history.goBack();
+  }
+  console.log("rest");
+  console.log(rest);
+
+  return <Route {...rest}>{children}</Route>;
+};
 
 RoleBasedRoute.propTypes = {
   roles: PropTypes.array.isRequired,
