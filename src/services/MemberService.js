@@ -12,6 +12,17 @@ class MemberService {
     }
   }
 
+  static async getMemberById(memberId) {
+    try {
+      const {
+        data: { body },
+      } = await axiosImpl({}).get(`/members/${memberId}`);
+      return { status: true, response: body };
+    } catch (error) {
+      throw getAxiosError(error);
+    }
+  }
+
   static async createMember(member) {
     try {
       const { data } = await axiosImpl({}).post(`members`, member);
